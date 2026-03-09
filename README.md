@@ -206,6 +206,154 @@ Open `server/test.rest` and click "Send Request" buttons to test endpoints.
 - `npm run start` - Run production build
 - `npm run build` - Compile TypeScript
 
+### Testing (Playwright)
+- `npm run test:all` - Run all tests (API + E2E)
+- `npm run test:api` - Run only API tests
+- `npm run test:e2e` - Run only E2E tests
+- `npm run test:headed` - Run tests in browser (visible)
+- `npm run test:headed:slow` - Run tests one by one in browser (sequential)
+- `npm run test:debug` - Debug tests with inspector (step-by-step, slow motion)
+- `npm run test:open-report` - Open HTML test report
+- `npm run test:report` - Serve test report on localhost
+
+## 🧪 Running Tests
+
+This project includes **5 Playwright tests** (2 API tests + 3 E2E tests).
+
+### Prerequisites
+
+**Both servers must be running before tests can execute:**
+
+#### Step 1: Start Backend Server
+Open Terminal 1:
+```bash
+cd server
+npm start
+```
+
+Expected output:
+```
+Server is running on http://localhost:5000
+```
+**Keep this terminal open!**
+
+#### Step 2: Start Frontend Server
+Open Terminal 2 (new window):
+```bash
+npm run dev
+```
+
+Expected output:
+```
+Local: http://localhost:5173/
+```
+**Keep this terminal open!**
+
+### Running Tests
+
+Open Terminal 3 (new window) and run any of the following:
+
+#### Run All Tests (Recommended)
+```bash
+npm run test:all
+```
+
+Output:
+```
+Running 5 tests using 5 workers
+  5 passed (4.4s)
+```
+
+#### Run Tests in Slow Motion (Watch Them Execute)
+
+**Option 1: Debug Mode (Recommended - Slow & Interactive)**
+```bash
+npm run test:debug
+```
+- Opens Playwright Inspector
+- **Step through each test** one action at a time
+- Perfect for learning and debugging
+- Press "Step over" button to advance
+
+**Option 2: Headed Slow Mode (Watch Without Stopping)**
+```bash
+npm run test:headed:slow
+```
+- Runs tests one by one (sequential)
+- Browser stays open
+- Stops at first failure
+- Good for watching execution flow
+
+#### Run Specific Test Suites
+```bash
+# API tests only (Tests 1 & 2)
+npm run test:api
+
+# E2E tests only (Tests 3, 4 & 5)
+npm run test:e2e
+```
+
+#### View Test Results
+```bash
+# Open HTML report in browser
+npm run test:open-report
+```
+
+### Test Coverage
+
+**API Tests** (2 tests):
+- ✅ Test 1: Positive - Get random dog image
+- ✅ Test 2: Negative - Invalid route handling
+
+**E2E Tests** (3 tests):
+- ✅ Test 3: Positive - Dog image loads on page load
+- ✅ Test 4: Positive - Dog image loads on button click
+- ✅ Test 5: Negative - Error message on API failure
+
+### Troubleshooting Tests
+
+#### Error: "ERR_CONNECTION_REFUSED at http://localhost:5000"
+**Fix:** Backend server is not running. Start it with:
+```bash
+cd server
+npm start
+```
+
+#### Error: "ERR_CONNECTION_REFUSED at http://localhost:5173"
+**Fix:** Frontend server is not running. Start it with:
+```bash
+npm run dev
+```
+
+#### Error: "EADDRINUSE: address already in use :::5000"
+**Fix:** Port 5000 is already in use. Kill the process:
+
+Windows PowerShell:
+```powershell
+$port = Get-NetTCPConnection -LocalPort 5000 -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty OwningProcess
+if ($port) { Stop-Process -Id $port -Force }
+```
+
+Then restart the server:
+```bash
+cd server
+npm start
+```
+
+#### Error: "EADDRINUSE: address already in use :::5173"
+**Fix:** Port 5173 is already in use. Kill the process:
+
+Windows PowerShell:
+```powershell
+$port = Get-NetTCPConnection -LocalPort 5173 -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty OwningProcess
+if ($port) { Stop-Process -Id $port -Force }
+```
+
+Then restart the frontend:
+```bash
+npm run dev
+```
+
 ## 🐛 Troubleshooting
 
 ### "Cannot find module 'express'" or other package errors

@@ -7,7 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:api": "playwright test --project=\"API Tests\"",
+    "test:e2e": "playwright test --project=\"E2E Tests\"",
+    "test:all": "playwright test",
+    "test:ui": "playwright test --ui --headed",
+    "test:headed": "playwright test --headed",
+    "test:headed:slow": "playwright test --headed --workers=1 --max-failures=1",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "test:open-report": "start playwright-report/index.html"
   },
   "dependencies": {
     "react": "^19.2.0",
@@ -15,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
